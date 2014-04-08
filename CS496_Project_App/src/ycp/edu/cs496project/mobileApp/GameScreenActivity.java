@@ -22,46 +22,52 @@ import android.widget.Toast;
  *
  */
 public class GameScreenActivity extends Activity {
-	
-	//comment to test chris's github fetch issue
-	
-	
 	private final static int NUM_COLS = 4;//the number of columns for the game grid
-	private final static int NUM_SPACES = NUM_COLS * NUM_COLS;
+	private final static int NUM_ROWS = 6;//the number of columns for the game grid
+	private final static int NUM_SPACES = NUM_COLS * NUM_ROWS;
 	
 	private GridView gameGrid; //the game grid
 	Integer[] imageArray = {R.drawable.sample_0, R.drawable.sample_1, R.drawable.sample_2, R.drawable.sample_3,
-							R.drawable.sample_4, R.drawable.sample_5, R.drawable.sample_6, R.drawable.sample_7};
-	
-	ImageButton[] imgButtonArr = new ImageButton[imageArray.length];
-	
+							R.drawable.sample_4, R.drawable.sample_5, R.drawable.sample_5, R.drawable.sample_6,
+							R.drawable.sample_7, R.drawable.ic_launcher, R.drawable.ic_launcher, R.drawable.ic_launcher,
+							R.drawable.ic_launcher, R.drawable.ic_launcher, R.drawable.ic_launcher, R.drawable.ic_launcher,
+							R.drawable.ic_launcher, R.drawable.ic_launcher, R.drawable.ic_launcher, R.drawable.ic_launcher,
+							R.drawable.ic_launcher, R.drawable.ic_launcher, R.drawable.ic_launcher, R.drawable.ic_launcher};
+			
 	boolean[] imgNum = {true, true, true, true, true, true, true};
 	
 	private OnItemClickListener gridClickListener;
 	private ImageArrayAdapter<Integer> imageAdapter;
+	boolean bool;
 	
 	ImageButton imgButton; //an image button
 	
-	boolean bool;
+	Integer[] element = new Integer[NUM_SPACES];
+	
+	//GameplayController gameplayController = new GameplayController();
+	
+	public void initializeElementArray()
+	{
+		for (int i = 0; i < NUM_SPACES; i++)
+		{
+			element[i] = 0;
+		}
+	}
+	
+	
 	
 	@Override
-	protected void onCreate(Bundle savedInstanceState) {
+	protected void onCreate(Bundle savedInstanceState) 
+	{
 		super.onCreate(savedInstanceState);
 		
 		setContentView(R.layout.activity_game_screen);
-		
-		//initialize the ImageButtons that will be placed in the GridView
-		for(int i = 0; i < imgButtonArr.length; i++){
-			imgButtonArr[i] = new ImageButton(this);
-		}
 		
 		imageAdapter = new ImageArrayAdapter<Integer>(this, R.layout.list_imagebutton, imageArray);
 		
 		bool = true;
 		
-		//create an image button
-		//imgButton = (ImageButton)findViewById(R.id.imageButton);
-		//createOnImageButtonClick();
+		initializeElementArray();
 		
 		initGridView(); //initialize the GridView
 		
@@ -105,14 +111,8 @@ public class GameScreenActivity extends Activity {
 			@Override
 			public void onItemClick(AdapterView<?> adapterView, View v, int position, long id) {
 				// TODO Auto-generated method stub
-				ImageButton img = (ImageButton)v;
-				if(!imgNum[position] == true){
-					imgNum[position] = false;
-					img.setImageResource(R.drawable.ic_launcher);
-				}else{
-					imgNum[position] = true;
-					img.setImageResource(imageArray[position]);
-				}
+				ImageView img = (ImageView) v;
+				img.setImageResource(R.drawable.ic_launcher);
 			}
 		});
 	}
@@ -141,20 +141,40 @@ public class GameScreenActivity extends Activity {
 		 * an overwritten implementation of the ArrayAdapter getView() method, to enable the GridView
 		 * to be populated with images.
 		 */
-		public View getView(int position, View convertView, ViewGroup parent){
-			ImageButton image;
+		public View getView(int position, View convertView, ViewGroup parent)
+		{
+			ImageView image;
 			
 			if(convertView == null){
-				image = new ImageButton(getContext());
+				image = new ImageView(getContext());
 				image.setLayoutParams(new GridView.LayoutParams(85, 85));
 				image.setScaleType(ImageView.ScaleType.CENTER_CROP);
 				image.setPadding(8, 8, 8, 8);
 			}else{
-				image = (ImageButton) convertView;
+				image = (ImageView) convertView;
 			}
 			
 			image.setImageResource(imageArray[position]);
 			return image;
+		}
+		
+		/**
+		 * Continually handles game mechanics by calling the GameplayController
+		 * and updating the "element" array to accurately describe what to display
+		 */
+		public void onResume()
+		{
+			//update element array
+			//gameplayController.currentTime
+			
+			//while (gameActive == true)
+			{
+				for (int i = 0; i < NUM_SPACES; i++)
+				{
+					ImageView currentSpace = (ImageView) gameGrid.getItemAtPosition(i);
+					currentSpace.setImageResource(element[i]);
+				}
+			}
 		}
 	}
 	

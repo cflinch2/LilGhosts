@@ -15,6 +15,7 @@ public class Gameplay
 	Random aRandom = new Random();
 	int Min = 0;
 	int Max = 4;
+	int numRareGhosts = 1;	//increment any time a new RARE ghost is designed and implemented
 	int nextGhost = 0;
 	boolean spawnRed = false;
 	boolean spawnYellow = false;
@@ -105,38 +106,19 @@ public class Gameplay
 		nextGhost = Min + (int)(Math.random() * ((Max - Min) + 1));
 	}
 	
-	/*
-	 * if (nextGhost >= 1 && nextGhost <= 45)
-		{
-			spawnRed = true;
-		}
-		
-		else if (nextGhost >= 46 && nextGhost <= 90)
-		{
-			spawnYellow = true;
-		}
-		
-		else if (nextGhost == 0)
-		{
-			spawnWall = true;
-		}
-		
-		//Spawn Rare Ghost
-		// This will be updated as more rare ghosts are added, which will be further divided by their rarity
-		else
-		{
-			nextGhost = Min + (int)(Math.random() * ((Max - Min) + 1));
-			
-			if (nextGhost >= 0 && nextGhost <= 100)
-			{
-				spawnRare001 = true;
-			}
-		}
+	/**
+	 *  This will be updated as more rare ghosts are added, which will be further divided by their rarity
 	 */
+	public int getRareGhost()
+	{
+		return nextGhost = 1 + (int)(Math.random() * ((numRareGhosts - 1) + 1));
+	}
+	
 	
 	
 	public int getNextGhost()
 	{
+		updateNextGhost();
 		return nextGhost;
 	}
 	
