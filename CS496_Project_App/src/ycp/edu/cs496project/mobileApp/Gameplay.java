@@ -1,4 +1,4 @@
-package edu.ycp.cs496.ghosts.model;
+package ycp.edu.cs496project.mobileApp;
 import java.util.Random;
 
 public class Gameplay 
@@ -17,6 +17,7 @@ public class Gameplay
 	int Max = 4;
 	int numRareGhosts = 1;	//increment any time a new RARE ghost is designed and implemented
 	int nextGhost = 0;
+	int gridPosition = 0;
 	boolean spawnRed = false;
 	boolean spawnYellow = false;
 	boolean spawnWall = false;
@@ -24,7 +25,34 @@ public class Gameplay
 		
 	boolean gameActive = false;
 	int value;
+	
+	GameScreenActivity gameScreenActivity = new GameScreenActivity();
+	int numGridSpaces = gameScreenActivity.getNumGridSpaces();
 
+	Integer[] element = new Integer[gameScreenActivity.getNumGridSpaces()];
+	
+	public void initializeElementArray()
+	{
+		for (int i = 0; i < gameScreenActivity.getNumGridSpaces(); i++)
+		{
+			element[i] = 0;
+		}
+	}
+	
+	public int getElementArrayData(int index)
+	{
+		return element[index];
+	}
+	
+	/**
+	 * @param index
+	 * @param value
+	 */
+	public void setElementArrayData(int index, int value)
+	{
+		element[index] = value;
+	}
+	
 	public void incrementSpawnRate(int incrementValue)
 	{
 		spawnRate = spawnRate + incrementValue;
@@ -104,6 +132,29 @@ public class Gameplay
 	public void updateNextGhost()
 	{
 		nextGhost = Min + (int)(Math.random() * ((Max - Min) + 1));
+		gridPosition = getGridPosition();
+		
+		while (chooseGridSpace(gridPosition) == false)
+		{
+			gridPosition = getGridPosition();
+		}
+		
+		setElementArrayData(gridPosition, nextGhost);
+	}
+	
+	public int getGridPosition()
+	{
+		return 0 + (int)(Math.random() * ((numGridSpaces - 0) + 1));
+	}
+	
+	
+	public boolean chooseGridSpace(int gridPosition)
+	{
+		if (getElementArrayData(gridPosition) != 0)
+		{	
+			return false;
+		}
+		return true;
 	}
 	
 	/**

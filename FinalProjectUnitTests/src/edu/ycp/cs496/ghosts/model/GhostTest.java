@@ -9,6 +9,7 @@ import org.junit.Test;
 import static org.junit.Assert.*;
 
 public class GhostTest {
+	/*
 	private BlueGhost blueGhost;
 	private RareGhost_001 rareGhost_001;
 	private RedGhost redGhost;
@@ -26,4 +27,5 @@ public class GhostTest {
 	public void testGhost() {
 		// TODO: test
 	}
+	*/
 }
