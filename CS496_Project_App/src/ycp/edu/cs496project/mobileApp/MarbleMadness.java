@@ -1,5 +1,6 @@
 package ycp.edu.cs496project.mobileApp;
 
+import ycp.edu.cs496project.mobileApp.graphics.Panel;
 import android.os.Bundle;
 import android.view.Window;
 import android.app.Activity;

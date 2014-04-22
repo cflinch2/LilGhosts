@@ -1,4 +1,4 @@
-package ycp.edu.cs496project.mobileApp;
+package ycp.edu.cs496project.mobileApp.graphics;
 
 import android.graphics.Canvas;
 import android.view.SurfaceHolder;
