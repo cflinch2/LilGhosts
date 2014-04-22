@@ -1,6 +1,7 @@
 package ycp.edu.cs496project.mobileApp.graphics;
 
 import java.util.ArrayList;
+import java.util.Random;
 
 import ycp.edu.cs496project.mobileApp.GhostEnums;
 import ycp.edu.cs496project.mobileApp.R;
@@ -38,12 +39,16 @@ public class Panel extends SurfaceView implements Callback
 		private ArrayList<Sprite> mSpriteList = new ArrayList<Sprite>();
 		int startX, startY, velocityX, velocityY;
 		
+	private Random generater;
+		
 	public Panel(Context context) 
 	{
 		super(context);
+		
+		generater = new Random(System.currentTimeMillis());
 
 		// TODO 2: Initialize class fields
-		
+			
 			tooManyGhosts = 50;
 			//Register the class as the callback (using getHolder.addCallback(this);)
 			getHolder().addCallback(this);
@@ -71,7 +76,8 @@ public class Panel extends SurfaceView implements Callback
 	 */
 	public int getRandomNum(int Min, int Max)
 	{
-		return (int) Min + (int)(Math.random() * ((Max - Min) + 1));
+		//return (int) Min + (int)(Math.random() * ((Max - Min) + 1));
+		return generater.nextInt((Max-Min)+1) + Min;
 	}
 	
 	
