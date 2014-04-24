@@ -59,17 +59,14 @@ public class ViewThread extends Thread {
 	              //update the panel object, shows movement of ghosts
 	              mPanel.update(mElapsed);
 	              
-	              //Updates elapsing until it reaches .25seconds and then calls update again,
-	              //THIS update call is the one which will attempt to spawn ghosts
+	              //Updates elapsing until it reaches .25seconds and then calls tryToSpawn
 	                elapsing += mElapsed;
 	                
 	                if(elapsing >= 250)
 	                { 
-	                	mPanel.update(elapsing);
+	                	mPanel.tryToSpawn();
 	                	elapsing = (long) 0;
 	                }
-	              
-	              
 
 	              // Render updated state//draw the panel object, and 
 	              mPanel.doDraw(canvas,mElapsed);

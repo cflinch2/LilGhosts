@@ -50,7 +50,7 @@ public class Panel extends SurfaceView implements Callback
 
 		// TODO 2: Initialize class fields
 			score = 0;
-			tooManyGhosts = 50;
+			tooManyGhosts = 10;
 			//Register the class as the callback (using getHolder.addCallback(this);)
 			getHolder().addCallback(this);
 			
@@ -116,30 +116,11 @@ public class Panel extends SurfaceView implements Callback
 	{
 		if (gameOver != true)
 		{
-			//Every 0.25 seconds attempt to spawn a ghost
-			if (elapsedTime >= 250)
-			{
-			  int nextGhost = getRandomNum(0, 1000);
-		      if (nextGhost > 950)
-		      {
-		    	  createGhost(GhostEnums.redGhost,0,0,3);
-		      }
-		      
-		      if (nextGhost > 925 && nextGhost < 950)
-		      {
-		    	  createGhost(GhostEnums.yellowGhost,0,0,3);
-		      }
-		      
-		      if (nextGhost > 900 && nextGhost < 925)
-		      {
-		    	  createGhost(GhostEnums.greenGhost,0,0,4);
-		      }
-			}
-		      
 		   synchronized (mSpriteList) 
 		   {
 		      for (Sprite sprite : mSpriteList) 
 		      {
+		    	 //show movement
 		         sprite.update(elapsedTime);
 		         if (checkGameEnd() == true)
 		         {
@@ -149,7 +130,28 @@ public class Panel extends SurfaceView implements Callback
 		   }
 		}
 	}
-
+	
+	/*
+	 * Creates a random number and based on the number spawns the appropriate entity
+	 */
+	public void tryToSpawn()
+	{
+		 int nextGhost = getRandomNum(0, 1000);
+	     if (nextGhost > 950)
+	     {
+	   	  createGhost(GhostEnums.redGhost,0,0,3);
+	     }
+	     
+	     if (nextGhost > 925 && nextGhost < 950)
+	     {
+	   	  createGhost(GhostEnums.yellowGhost,0,0,3);
+	     }
+	     
+	     if (nextGhost > 900 && nextGhost < 925)
+	     {
+	   	  createGhost(GhostEnums.greenGhost,0,0,4);
+	     }
+	}
 	/**
 	 * Creates a ghost based on the ghostEnum type and randomly sets the initial location and velocity based on the ranges passed in as parameters 
 	 * @param ghostEnum
@@ -210,6 +212,7 @@ public class Panel extends SurfaceView implements Callback
 			if (gameOver == true)
 			{
 //				Toast.makeText(Panel, "You Win!", Toast.LENGTH_SHORT).show();
+				canvas.drawText("Game Over" , 10, 10, mPaint);
 			}
 		}
 	}
@@ -321,6 +324,10 @@ public class Panel extends SurfaceView implements Callback
 		return false;
 	}
 
+	public int getScore()
+	{
+		return score;
+	}
 	
 	
 }
