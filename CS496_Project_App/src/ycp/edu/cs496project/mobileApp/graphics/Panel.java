@@ -26,6 +26,7 @@ public class Panel extends SurfaceView implements Callback
 	//final private float holeRadius = 20.0f;
 	//final private float ballStopped = 0.1f;
 	private int tooManyGhosts;
+	private int score;
 	
 	/* TODO 1: Add fields for: Sprite (for the ball object), 
 	 * a field for a thread object, 
@@ -48,7 +49,7 @@ public class Panel extends SurfaceView implements Callback
 		generater = new Random(System.currentTimeMillis());
 
 		// TODO 2: Initialize class fields
-			
+			score = 0;
 			tooManyGhosts = 50;
 			//Register the class as the callback (using getHolder.addCallback(this);)
 			getHolder().addCallback(this);
@@ -115,6 +116,9 @@ public class Panel extends SurfaceView implements Callback
 	{
 		if (gameOver != true)
 		{
+			//Every 0.25 seconds attempt to spawn a ghost
+			if (elapsedTime >= 250)
+			{
 			  int nextGhost = getRandomNum(0, 1000);
 		      if (nextGhost > 950)
 		      {
@@ -130,7 +134,7 @@ public class Panel extends SurfaceView implements Callback
 		      {
 		    	  createGhost(GhostEnums.greenGhost,0,0,4);
 		      }
-		      
+			}
 		      
 		   synchronized (mSpriteList) 
 		   {
@@ -205,7 +209,7 @@ public class Panel extends SurfaceView implements Callback
 			//Display message if game over
 			if (gameOver == true)
 			{
-				//Toast.makeText(Panel, "You Win!", Toast.LENGTH_SHORT).show();
+//				Toast.makeText(Panel, "You Win!", Toast.LENGTH_SHORT).show();
 			}
 		}
 	}
@@ -223,7 +227,8 @@ public class Panel extends SurfaceView implements Callback
 	    float scalingFactor = 5.0f / ((mWidth > mHeight) ? mWidth : mHeight);
 
 	    // Use move touch event
-	    switch (event.getAction()) {
+	    switch (event.getAction()) 
+	    {
 	     	//case MotionEvent.ACTION_MOVE:
 	    	case MotionEvent.ACTION_DOWN: 
 	            // Modify velocities according to movement
@@ -248,6 +253,37 @@ public class Panel extends SurfaceView implements Callback
 			    			if (Math.abs(distance(currentX, currentY, sprite.getCenterX(), sprite.getCenterY())) < sprite.getRadius()* 3)
 			    			{
 			    				toRemove.add(sprite);
+			    				score++;
+			    				//sprite.changeVelocity(deltaX * scalingFactor, deltaY * scalingFactor);
+			    			}
+			    			//sprite.changeVelocity(deltaX * scalingFactor, deltaY * scalingFactor);
+	        			}
+		    		}
+	        		
+	        		for (Sprite sprite : toRemove) {
+	        			mSpriteList.remove(sprite);
+	        		}
+	        	}
+/*	        	
+	     	case MotionEvent.ACTION_MOVE:
+	           		deltaX = getRandomNum(-3, 3);
+	        		deltaY = getRandomNum(-3, 3);
+	        		
+            //when there is a move action ALL of the sprites will move
+	            // Update ball velocities
+	        	synchronized(mSpriteList)
+	        	{
+	        		ArrayList<Sprite> toRemove = new ArrayList<Sprite>();
+	        		for (Sprite sprite : mSpriteList) 
+		    		{
+	
+//?						if (sprite.getGhostType() < 3)
+	        			{
+		        			//draw the ball(s) because they are sprites in the sprite list
+			    			if (Math.abs(distance(currentX, currentY, sprite.getCenterX(), sprite.getCenterY())) < sprite.getRadius()* 3)
+			    			{
+			    				toRemove.add(sprite);
+			    				score++;
 			    				//sprite.changeVelocity(deltaX * scalingFactor, deltaY * scalingFactor);
 			    			}
 			    			//sprite.changeVelocity(deltaX * scalingFactor, deltaY * scalingFactor);
@@ -259,6 +295,9 @@ public class Panel extends SurfaceView implements Callback
 	        		}
 	        	}
 	    }
+*/
+	    }
+
 
 	    // Save current x, y
 	    previousX = currentX;

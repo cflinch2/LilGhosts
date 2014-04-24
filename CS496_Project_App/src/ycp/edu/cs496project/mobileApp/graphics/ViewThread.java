@@ -1,7 +1,9 @@
 package ycp.edu.cs496project.mobileApp.graphics;
 
+import ycp.edu.cs496project.mobileApp.MarbleMadness;
 import android.graphics.Canvas;
 import android.view.SurfaceHolder;
+import android.widget.Toast;
 
 public class ViewThread extends Thread {
 	// TODO 1: Add class fields
@@ -14,6 +16,7 @@ public class ViewThread extends Thread {
 	SurfaceHolder mHolder;
 	Long mStartTime;
 	Long mElapsed;
+	Long elapsing = (long) 0;
 	boolean gameOver = false;
 	
 	public ViewThread(Panel panel) {
@@ -52,8 +55,21 @@ public class ViewThread extends Thread {
 	    	  {
 	    		  // Update state based on elapsed time //compute the current elapsed time, 
 	              mElapsed = System.currentTimeMillis() - mStartTime;
-	              //update the panel object,
+	              
+	              //update the panel object, shows movement of ghosts
 	              mPanel.update(mElapsed);
+	              
+	              //Updates elapsing until it reaches .25seconds and then calls update again,
+	              //THIS update call is the one which will attempt to spawn ghosts
+	                elapsing += mElapsed;
+	                
+	                if(elapsing >= 250)
+	                { 
+	                	mPanel.update(elapsing);
+	                	elapsing = (long) 0;
+	                }
+	              
+	              
 
 	              // Render updated state//draw the panel object, and 
 	              mPanel.doDraw(canvas,mElapsed);
@@ -65,6 +81,8 @@ public class ViewThread extends Thread {
 	           // Update start time		//Do not forget to update the start time variable with the new current time
 	           mStartTime = System.currentTimeMillis();  
 	      }
+	      
+	      //Toast.makeText(Panel, "Score: ", Toast.LENGTH_SHORT).show();
 	     
 	}
 }
