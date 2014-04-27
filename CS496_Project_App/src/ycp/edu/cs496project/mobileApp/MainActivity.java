@@ -4,7 +4,8 @@ import java.io.IOException;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 
-import ycp.edu.cs496project.mobileApp.servletControllers.TestController;
+
+//import ycp.edu.cs496project.mobileApp.servletControllers.TestController;
 import android.os.Bundle;
 import android.app.Activity;
 import android.content.Intent;
@@ -26,12 +27,12 @@ public class MainActivity extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
-		
-		
+
+		//if a user is not logged in, go to the login/ register activity to either log in or register
 		if(username == null || password == null){
-			//TODO: go to the login page
+			//Intent loginIntent = new Intent(this, LoginActivity.class);
+			//startActivity(loginIntent);
 		}
-		
 	}
 
 	@Override
@@ -62,27 +63,13 @@ public class MainActivity extends Activity {
 	 */
 	public void onScoreClick(View v) throws UnknownHostException, IOException{
 		//start the player info activity
-		//if(InetAddress.getByName("10.0.2.2").isReachable(1000)){
-			Intent playerInfoIntent = new Intent(this, PlayerInfoActivity.class);
-			startActivity(playerInfoIntent);
-		//}else{
-			//Toast.makeText(MainActivity.this, "Server is offline", Toast.LENGTH_SHORT).show();
-		//}
+		Intent playerInfoIntent = new Intent(this, PlayerInfoActivity.class);
+		startActivity(playerInfoIntent);
 	}
 	
-	//simple test to see if database can be accessed
-	public void onDBTestClick(View v){
-		TestController controller = new TestController();
-		try{
-			Toast.makeText(MainActivity.this, controller.test(), Toast.LENGTH_SHORT).show();
-		}catch(Exception e){
-			e.printStackTrace();
-		}
-	}
-	
+	//onClick event to go to login 
 	public void onGoToLoginClick(View v){
 		Intent loginIntent = new Intent(this, LoginActivity.class);
 		startActivity(loginIntent);
 	}
-
 }

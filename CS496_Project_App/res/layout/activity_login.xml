@@ -8,14 +8,23 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context=".LoginActivity" >
 
+    <ImageView
+        android:id="@+id/titleImage"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:src="@drawable/red_ghost" />
+
     <Button
         android:id="@+id/login_view_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_below="@+id/titleImage"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="32dp"
-        android:onClick="onLoginViewClick"
-        android:text="@string/login_button_text" />
+        android:text="@string/login_button_text"
+        android:onClick="onLoginViewClick" />
 
     <Button
         android:id="@+id/register_view_button"

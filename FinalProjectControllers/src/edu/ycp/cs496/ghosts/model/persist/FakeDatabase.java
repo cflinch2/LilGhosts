@@ -15,8 +15,6 @@ import edu.ycp.cs496.ghosts.model.User;
  * 
  */
 
-
-
 public class FakeDatabase implements IDatabase {
 	
 	private ArrayList<User> userList;
@@ -28,13 +26,16 @@ public class FakeDatabase implements IDatabase {
 		userList.add(new User("Shane", "sbonner"));
 		userList.add(new User("Josh", "jcoady"));
 		userList.add(new User("Chris", "cflinch"));
+		userList.get(0).setUserScore(200);
+		userList.get(1).setUserScore(150);
+		userList.get(2).setUserScore(800);
 	}
 	
 	@Override
 	public User getUser(String userName, String Password) {
 		for(User user: userList){
-			if(user.getUserName() == userName){// && user.getUserPassword() == password){
-				return user;
+			if(user.getUserName().equals(userName)){// && user.getUserPassword() == password){
+				return user.clone();
 			}
 		}
 		return null;	
