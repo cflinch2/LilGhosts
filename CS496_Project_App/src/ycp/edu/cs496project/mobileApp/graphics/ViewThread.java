@@ -16,7 +16,8 @@ public class ViewThread extends Thread {
 	SurfaceHolder mHolder;
 	Long mStartTime;
 	Long mElapsed;
-	Long elapsing = (long) 0;
+	Long spawnElapsing = (long) 0;
+	Long countdownElapsing = (long) 0;
 	boolean gameOver = false;
 	
 	public ViewThread(Panel panel) {
@@ -59,15 +60,24 @@ public class ViewThread extends Thread {
 	              //update the panel object, shows movement of ghosts
 	              mPanel.update(mElapsed);
 	              
-	              //Updates elapsing until it reaches .25seconds and then calls tryToSpawn
-	                elapsing += mElapsed;
+	              //Updates spawnElapsing until it reaches .25seconds and then calls tryToSpawn
+	                spawnElapsing += mElapsed;
+	                countdownElapsing += mElapsed;
 	                
-	                if(elapsing >= 250)
-	                { 
-	                	mPanel.tryToSpawn();
-	                	elapsing = (long) 0;
+	                if(mPanel.checkGameEnd() != true) 
+	                {
+		                if(spawnElapsing >= 250)
+		                { 
+		                	mPanel.tryToSpawn();
+		                	spawnElapsing = (long) 0;
+		                }
+		                
+		                if (countdownElapsing >= 500)
+		                {
+		                	mPanel.updateCountdownTime(0.5);
+		                	countdownElapsing = (long) 0;
+		                }
 	                }
-
 	              // Render updated state//draw the panel object, and 
 	              mPanel.doDraw(canvas,mElapsed);
 
@@ -77,9 +87,15 @@ public class ViewThread extends Thread {
 
 	           // Update start time		//Do not forget to update the start time variable with the new current time
 	           mStartTime = System.currentTimeMillis();  
+	    	  
+	           
+	          /* 
+	           // Stop gameloop if game is over
+	           if (mPanel.checkGameEnd() == true)
+	           {
+	        	   mRun = false;
+	           }
+	           */
 	      }
-	      
-	      //Toast.makeText(Panel, "Score: ", Toast.LENGTH_SHORT).show();
-	     
 	}
 }
