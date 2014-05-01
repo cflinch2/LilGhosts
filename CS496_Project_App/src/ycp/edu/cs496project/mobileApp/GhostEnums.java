@@ -4,6 +4,7 @@ public enum GhostEnums {
 	deathGhost,
 	redGhost,
 	yellowGhost,
-	greenGhost;
+	greenGhost,
+	plusFiveGhost;
 
 }

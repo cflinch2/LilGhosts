@@ -26,7 +26,7 @@ public class Panel extends SurfaceView implements Callback
 	private int numGhosts;	
 	private int tooManyGhosts;
 	private int score;
-	private double countdownTime;
+	private double countdownTime; //displayed as "Bravery" to user
 	private int redChain;
 	private int yellowChain;
 	private int greenChain;
@@ -188,6 +188,11 @@ public class Panel extends SurfaceView implements Callback
 		     {
 		   	  	createGhost(GhostEnums.greenGhost,0,0,4);
 		     }
+		     
+		     if (getRedChain() >= 10 && nextGhost == 10)
+		     {
+		    	 createGhost(GhostEnums.plusFiveGhost, 0, 0, 5);
+		     }
 		 }
 	}
 	
@@ -234,6 +239,12 @@ public class Panel extends SurfaceView implements Callback
 			numGhosts++;
 		}
 		
+		if (ghostEnum == GhostEnums.plusFiveGhost)
+		{
+			ghost = new Sprite(getResources(), R.drawable.plus_five, startX, startY, velocityX, velocityY);
+			numGhosts++;
+		}
+		
 		mSpriteList.add(ghost);
 	}
 	// TODO 6: Draw Canvas and Ghosts
@@ -261,7 +272,7 @@ public class Panel extends SurfaceView implements Callback
 			{
 				canvas.drawText("Game Over", 10, 30, mPaint);
 			}
-			canvas.drawText(getCountdownString(getCountdownTime()), 10, 10, mPaint);
+			canvas.drawText("Bravery: "+ getCountdownString(getCountdownTime()), 10, 10, mPaint);
 			canvas.drawText("Score:" + getScoreString(getScore()), 100, 10, mPaint);
 			canvas.drawText("Red Chain:" + getScoreString(getRedChain()), 100, 40, mPaint);
 			canvas.drawText("Yellow Chain:" + getScoreString(getYellowChain()), 200, 40, mPaint);
@@ -361,6 +372,12 @@ public class Panel extends SurfaceView implements Callback
 		        				}
 		        			}
 		        			
+		        			//Rare ghost does not break chain, adds a hard coded value to the timer
+		        			if (sprite.getGhostType() == R.drawable.plus_five)
+		        			{
+		        				updateCountdownTime(5.0);
+		        			}
+		        			
 		        			mSpriteList.remove(sprite);
 		        			numGhosts--;
 		        		}
@@ -419,6 +436,7 @@ public class Panel extends SurfaceView implements Callback
 		return (float) Math.sqrt((x1-x2)*(x1-x2) + (y1-y2)*(y1-y2));
 	}
 	
+	
 	/**
 	 * Decrements the timer by the double value parameter, called from ViewThread
 	 * @param value
@@ -476,7 +494,7 @@ public class Panel extends SurfaceView implements Callback
 	 */
 	public void setGameEnd()
 	{
-		gameOver = true;
+		countdownTime = 0;
 	}
 	
 	/**
