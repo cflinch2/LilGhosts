@@ -31,6 +31,13 @@ public class Panel extends SurfaceView implements Callback
 	private int yellowChain;
 	private int greenChain;
 	
+	private int redPlus;
+	private int yellowPlus;
+	private int greenPlus;
+	private double redBonus;
+	private double yellowBonus;
+	private double greenBonus;
+	
 	/* TODO 1: Add fields for: Sprite (for the ball object), 
 	 * a field for a thread object, 
 	 * a field for a Paint object
@@ -55,8 +62,20 @@ public class Panel extends SurfaceView implements Callback
 			score = 0;
 			numGhosts = 0;
 			tooManyGhosts = 30;
-			countdownTime = 30.0;
+			countdownTime = 10.0;
 			redChain = 0;
+			yellowChain = 0;
+			greenChain = 0;
+			
+			//Initialize time plus counters
+			redPlus = 0;
+			yellowPlus = 0;
+			greenPlus = 0;
+			
+			//Initialize time bonuses
+			redBonus = 3.0;
+			yellowBonus = 5.0;
+			greenBonus = 8.0;
 			
 			//Register the class as the callback (using getHolder.addCallback(this);)
 			getHolder().addCallback(this);
@@ -290,32 +309,56 @@ public class Panel extends SurfaceView implements Callback
 			    			}
 			    		}
 		        				        		
-		        		//Keep track of chain values
+		        		//Keep track of chain values, update timers as needed, and set gameOver to true if death_ghost is tapped
 		        		for (Sprite sprite : toRemove) 
 		        		{
+		        			//If death_ghost is tapped, set gameOver to true
 		        			if (sprite.getGhostType() == R.drawable.death_ghost2)
 		        			{
 		        				setGameEnd();
 		        			}
+		        			
+		        			//Update chains, if three red ghosts are tapped in a row add redBonus to the timer
 		        			if (sprite.getGhostType() == R.drawable.red_ghost)
 		        			{
 		        				redChain++;
+		        				redPlus++;
+		        				if (redPlus == 3)
+		        				{
+		        					updateCountdownTime(redBonus);
+		        					redPlus = 0;
+		        				}
+			
 		        				yellowChain = 0;
 		        				greenChain = 0;
 		        			}
 		        			
+		        			//Update chains, if three yellow ghosts are tapped in a row add yellowBonus to the timer
 		        			if (sprite.getGhostType() == R.drawable.yellow_ghost)
 		        			{
 		        				redChain = 0;
 		        				yellowChain++;
+		        				yellowPlus++;
+		        				if (yellowPlus == 3)
+		        				{
+		        					updateCountdownTime(yellowBonus);
+		        					yellowPlus = 0;
+		        				}
 		        				greenChain = 0;
 		        			}
 		        			
+		        			//Update chains, if three green ghosts are tapped in a row add greenBonus to the timer
 		        			if (sprite.getGhostType() == R.drawable.green_ghost)
 		        			{
 		        				redChain = 0;
 		        				yellowChain = 0;
 		        				greenChain++;
+		        				greenPlus++;
+		        				if (greenPlus == 3)
+		        				{
+		        					updateCountdownTime(greenBonus);
+		        					greenPlus = 0;
+		        				}
 		        			}
 		        			
 		        			mSpriteList.remove(sprite);
@@ -382,7 +425,7 @@ public class Panel extends SurfaceView implements Callback
 	 */
 	public void updateCountdownTime(double value)
 	{
-		countdownTime -= value;
+		countdownTime += value;
 	}
 
 	/**

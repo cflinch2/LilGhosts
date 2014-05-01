@@ -74,7 +74,7 @@ public class ViewThread extends Thread {
 		                
 		                if (countdownElapsing >= 1000)
 		                {
-		                	mPanel.updateCountdownTime(1.0);
+		                	mPanel.updateCountdownTime(-1.0);
 		                	countdownElapsing = (long) 0;
 		                }
 	                }
