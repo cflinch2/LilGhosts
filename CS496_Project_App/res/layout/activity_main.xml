@@ -12,40 +12,37 @@
         android:id="@+id/play_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
+        android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="119dp"
+        android:layout_marginBottom="168dp"
         android:onClick="onPlayClick"
         android:text="@string/play_button_text" />
+
+    <Button
+        android:id="@+id/loginActivity_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/highscore_button"
+        android:layout_centerHorizontal="true"
+        android:onClick="onGoToLoginClick"
+        android:text="@string/login_button_text" />
+
+    <ImageView
+        android:id="@+id/imageView1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/play_button"
+        android:layout_centerHorizontal="true"
+        android:src="@drawable/logo" />
 
     <Button
         android:id="@+id/highscore_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/play_button"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="18dp"
+        android:layout_alignParentBottom="true"
+        android:layout_alignRight="@+id/play_button"
+        android:layout_marginBottom="22dp"
         android:onClick="onScoreClick"
         android:text="@string/highscore_button_text" />
-
-    <Button
-        android:id="@+id/loginActivity_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/highscore_button"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="26dp"
-        android:text="@string/login_button_text"
-        android:onClick="onGoToLoginClick" />
-
-    <Button
-        android:id="@+id/loginActivity_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/highscore_button"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="26dp"
-        android:text="@string/login_button_text"
-        android:onClick="onGoToLoginClick" />
 
 </RelativeLayout>
