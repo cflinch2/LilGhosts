@@ -147,6 +147,7 @@ public class DerbyDatabase implements IDatabase {
 				try {
 					stmt = conn.prepareStatement(
 							"insert into " + DB_TABLENAME + " (userName, password) values (?, ?)",
+							//"insert into " + DB_TABLENAME + " (userName, password, highScore) values (?, ?, 0)"
 							PreparedStatement.RETURN_GENERATED_KEYS
 					);
 					
@@ -161,8 +162,8 @@ public class DerbyDatabase implements IDatabase {
 						throw new SQLException("Could not get auto-generated key for inserted User");
 					}
 					
-					user.setId(generatedKeys.getInt(1));
-					System.out.println("New user has id " + user.getId());
+//					user.setId(generatedKeys.getInt(1));
+//					System.out.println("New user has id " + user.getId());
 					
 					return true;
 				}finally {
@@ -245,6 +246,11 @@ public class DerbyDatabase implements IDatabase {
 						" id integer primary key not null generated always as identity," +
 						" userName varchar(80) unique," +
 						" password varchar(80)" +
+					/*	" integer high score" +
+						" integer max red chain" +
+						" integer max yellow chain" +
+						" integer max green chain" + 
+					*/
 						")"
 					);
 					
@@ -293,7 +299,7 @@ public class DerbyDatabase implements IDatabase {
 		});
 	}
 	protected void loadUser(User user, ResultSet resultSet, int index) throws SQLException {
-		user.setId(resultSet.getInt(index++));
+//		user.setId(resultSet.getInt(index++));
 		user.setUserName(resultSet.getString(index++));
 		user.setUserPassword(resultSet.getString(index++));
 	}

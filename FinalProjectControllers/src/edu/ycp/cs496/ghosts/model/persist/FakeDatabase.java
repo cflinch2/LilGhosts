@@ -35,6 +35,7 @@ public class FakeDatabase implements IDatabase {
 	@Override
 	public User getUser(String userName, String Password) {
 		for(User user: userList){
+			System.out.println("Check: " + userName + "/" + user.getUserName());
 			if(user.getUserName().equals(userName)){// && user.getUserPassword() == password){
 				return user.clone();
 			}

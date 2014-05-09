@@ -91,6 +91,8 @@ public class DatabaseApp extends HttpServlet{
 				return;
 			}
 			
+			System.out.println("Post, action=" + action);
+			
 			if(action.equals("getUserList")){
 				//retrieve inventory from database
 				GetUserList getController = new GetUserList();
@@ -130,6 +132,7 @@ public class DatabaseApp extends HttpServlet{
 					pathInfo = pathInfo.substring(1);
 				}
 				
+				
 				String password = JSON.getObjectMapper().readValue(req.getReader(), String.class);
 				GetUserController getController = new GetUserController();
 				User user = getController.getUser(pathInfo, password);
@@ -154,6 +157,8 @@ public class DatabaseApp extends HttpServlet{
 				
 				String password = JSON.getObjectMapper().readValue(req.getReader(), String.class);
 				
+				System.out.println("Attempt to log in " + pathInfo + "/" + password);
+
 				GetUserController controller = new GetUserController(); 
 				User user = controller.getUser(pathInfo, password);		
 				System.out.println("accessed database");
@@ -166,6 +171,7 @@ public class DatabaseApp extends HttpServlet{
 				}
 				System.out.println(user.getUserName());
 				
+				System.out.println("Sending back User object");
 				resp.setStatus(HttpServletResponse.SC_OK);
 				resp.setContentType("application/json");
 				JSON.getObjectMapper().writeValue(resp.getWriter(), user);
