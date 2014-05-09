@@ -25,11 +25,26 @@ public interface IDatabase {
 
 	void deleteUser(String userName);
 
-	ArrayList<User> getUserList();
+	List<User> getUserList();
 
-	void replaceUserList(ArrayList<User> newUserList);
+	void replaceUserList(List<User> newUserList);
 
-	public void addNewUser(User user, String password);
+	//public void addNewUser(User user, String password);
+	/*
+	 * Add a new user.
+	 * 
+	 * @param user            the user to add
+	 * @param hashedPassword  the hashed password
+	 * @return true if successful, false if a user with the same name already exists
+	 */
+	public boolean addNewUser(User user, String hashedPassword);
 	
+	/**
+	 * Given a username, find the User object.
+	 * 
+	 * @param userName the username
+	 * @return the User, or null if there is no such user
+	 */
+	public User findUser(String userName);
 	
 }

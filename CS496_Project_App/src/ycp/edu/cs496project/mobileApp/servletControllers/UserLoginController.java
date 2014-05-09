@@ -1,6 +1,7 @@
 package ycp.edu.cs496project.mobileApp.servletControllers;
 
 import java.io.IOException;
+import java.io.StringWriter;
 import java.net.URISyntaxException;
 
 import org.apache.http.HttpEntity;
@@ -16,6 +17,7 @@ import org.apache.http.protocol.HTTP;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import android.os.AsyncTask;
 import android.util.Log;
 import ycp.edu.cs496project.mobileApp.json.JSON;
 import ycp.edu.cs496project.mobileApp.model.User;
@@ -27,8 +29,10 @@ import ycp.edu.cs496project.mobileApp.model.User;
  * @author josh coady
  *
  */
-public class UserLoginController {
+public class UserLoginController extends AsyncTask<String, Void, User>{
 	/**
+	 * a controller to see if a username and password relates to a user registered on the database, 
+	 * if such a user exists, then that user's information will be sent to the client
 	 * 
 	 * @param userName - the user's name
 	 * @param password - user's password
@@ -38,27 +42,28 @@ public class UserLoginController {
 	 * @throws URISyntaxException
 	 * @throws JSONException
 	 */
-	public User loginUser(String userName, String password) throws ClientProtocolException, IOException, URISyntaxException, JSONException{
+	private User loginUser(String userName, String password) throws ClientProtocolException, IOException, URISyntaxException, JSONException{
 		
 		String tag = "loginController";
 		
 		//create URI
 		String uri = "http://10.0.2.2:8081/DatabaseApp/" + userName + "?action=getUser";
 		
-		//create a JSON object with the user's login information
-		JSONObject jsonUserInfo = new JSONObject();
-		jsonUserInfo.put("userName", userName);
-		jsonUserInfo.put("password", password);
+		//create a StringWriter that places 
+		StringWriter sw = new StringWriter();
+		JSON.getObjectMapper().writeValue(sw, password);
 		
 		//send an http POST request
 		HttpClient client = new DefaultHttpClient();
 		HttpPost httpPost = new HttpPost(uri);
 		HttpResponse resp = null;
 		
-		//attach the user's login information to the POST request
-		StringEntity jsonEntity = new StringEntity(jsonUserInfo.toString());
-		jsonEntity.setContentType(new BasicHeader(HTTP.CONTENT_TYPE, "application/json"));
+		//attach the user's password to the POST request using a StringEntity
+		StringEntity jsonEntity = new StringEntity(sw.toString());
+		jsonEntity.setContentType("application/json");
 		httpPost.setEntity(jsonEntity);
+		
+		Log.i(tag, "password: " + sw.toString());
 		
 		resp = client.execute(httpPost);
 		
@@ -66,11 +71,24 @@ public class UserLoginController {
 		
 		if(resp.getStatusLine().getStatusCode() == HttpStatus.SC_OK){
 			HttpEntity entity = resp.getEntity();
-			System.out.println("resp branch");
-			Log.i(tag, "login success.");
+			Log.i(tag, "retrieved a user from server");
 			return JSON.getObjectMapper().readValue(entity.getContent(), User.class);
 		}
 		Log.i(tag, "failed to login.");
 		return null; 
+	}
+
+	/**
+	 * AsyncTask method to use login controller on a non-UI thread
+	 */
+	@Override
+	protected User doInBackground(String... params) {
+		
+		try{
+			return loginUser(params[0], params[1]);
+		}catch(Exception e){
+			e.printStackTrace();
+		}
+		return null;
 	}
 }

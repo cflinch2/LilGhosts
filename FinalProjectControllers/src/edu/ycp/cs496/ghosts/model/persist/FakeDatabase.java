@@ -17,7 +17,7 @@ import edu.ycp.cs496.ghosts.model.User;
 
 public class FakeDatabase implements IDatabase {
 	
-	private ArrayList<User> userList;
+	private List<User> userList;
 	
 	public FakeDatabase() {
 		userList = new ArrayList<User>();
@@ -28,7 +28,8 @@ public class FakeDatabase implements IDatabase {
 		userList.add(new User("Chris", "cflinch"));
 		userList.get(0).setUserScore(200);
 		userList.get(1).setUserScore(150);
-		userList.get(2).setUserScore(800);
+		userList.get(2).setUserScore(125);
+		
 	}
 	
 	@Override
@@ -42,10 +43,30 @@ public class FakeDatabase implements IDatabase {
 	}
 	
 	@Override
-	public void addNewUser(User user, String password) {
+	public boolean addNewUser(User user, String hashedPassword) {
 		// TODO Auto-generated method stub
-		userList.add(user);
-		user.setUserPassword(password);
+		
+		// make sure user with same username doesn't already exist
+		if (findUser(user.getUserName()) != null) {
+			return false;
+		}
+		
+		user.setUserPassword(hashedPassword);
+		// TODO: generate a unique id
+		
+		userList.add(user.clone());
+		
+		return true;
+	}
+	
+	@Override
+	public User findUser(String userName) {
+		for(User user: userList){
+			if(user.getUserName().equals(userName)){
+				return user.clone();
+			}
+		}
+		return null;
 	}
 	
 	@Override
@@ -73,7 +94,7 @@ public class FakeDatabase implements IDatabase {
 	}
 	
 	@Override
-	public void replaceUserList(ArrayList<User> newUserList) {
+	public void replaceUserList(List<User> newUserList) {
 		userList = newUserList;
 	}
 	

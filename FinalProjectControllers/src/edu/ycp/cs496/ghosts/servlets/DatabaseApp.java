@@ -48,7 +48,7 @@ public class DatabaseApp extends HttpServlet{
 			 // if there is no single item, replace the entire inventory 
 			
 			if(pathInfo == null || pathInfo.equals("") || pathInfo.equals("/")){
-				ArrayList<User> newUserList = JSON.getObjectMapper().readValue(req.getReader(), new TypeReference<List<User>>(){});
+				List<User> newUserList = JSON.getObjectMapper().readValue(req.getReader(), new TypeReference<List<User>>(){});
 				
 				//update database with the controller
 				ReplaceUserList controller = new ReplaceUserList();
@@ -155,7 +155,8 @@ public class DatabaseApp extends HttpServlet{
 				String password = JSON.getObjectMapper().readValue(req.getReader(), String.class);
 				
 				GetUserController controller = new GetUserController(); 
-				User user = controller.getUser(pathInfo, password);																																						
+				User user = controller.getUser(pathInfo, password);		
+				System.out.println("accessed database");
 				if (user == null) {
 					// No such item, so return a NOT FOUND response
 					resp.setStatus(HttpServletResponse.SC_NOT_FOUND);
@@ -163,14 +164,19 @@ public class DatabaseApp extends HttpServlet{
 					resp.getWriter().println("No such user: " + pathInfo);
 					return;
 				}
+				System.out.println(user.getUserName());
 				
+				resp.setStatus(HttpServletResponse.SC_OK);
+				resp.setContentType("application/json");
 				JSON.getObjectMapper().writeValue(resp.getWriter(), user);
 				
 			}
 			if(action.equals("addUser")){
 					User newUser = JSON.getObjectMapper().readValue(req.getReader(), User.class);
-					String password = JSON.getObjectMapper().readValue(req.getReader(), String.class);
+					String password = newUser.getUserPassword();
+					/*
 					GetUserList responseController = new GetUserList();
+					
 					ArrayList<User> userList = responseController.getUserList();
 
 				for(User users: userList){
@@ -181,13 +187,20 @@ public class DatabaseApp extends HttpServlet{
 						return;
 					}
 				}
+				*/
 				
 				AddUser addController = new AddUser(); 
-				addController.addNewUser(newUser, password);
+				boolean success = addController.addNewUser(newUser, password);
 				
-				resp.setStatus(HttpServletResponse.SC_OK);
-				resp.setContentType("application/json");
-				JSON.getObjectMapper().writeValue(resp.getWriter(), newUser);
+				if (success) {
+					resp.setStatus(HttpServletResponse.SC_OK);
+					resp.setContentType("application/json");
+					JSON.getObjectMapper().writeValue(resp.getWriter(), newUser);
+				} else {
+					resp.setStatus(HttpServletResponse.SC_NOT_FOUND);
+					resp.setContentType("text/plain");
+					resp.getWriter().println("User " + pathInfo + "already exists");
+				}
 			}
 		}
 		
@@ -211,7 +224,7 @@ public class DatabaseApp extends HttpServlet{
 				GetUserList responseController = new GetUserList();
 				
 				//retrieve inventory and show the update
-				ArrayList<User> userList = responseController.getUserList();
+				List<User> userList = responseController.getUserList();
 				resp.setStatus(HttpServletResponse.SC_OK);
 				resp.setContentType("application/json");
 	 			JSON.getObjectMapper().writeValue(resp.getWriter(), userList);
