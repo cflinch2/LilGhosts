@@ -16,7 +16,7 @@ import android.util.Log;
 import ycp.edu.cs496project.mobileApp.json.JSON;
 
 /**
- * a controller to get highscore information from the database
+ * a controller to get the top X number of highscores the database, currently gets ALL of them, needs reworked to limit X
  * 
  * @author josh coady
  *
