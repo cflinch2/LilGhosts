@@ -2,29 +2,22 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:paddingBottom="@dimen/activity_vertical_margin"
-    android:paddingLeft="@dimen/activity_horizontal_margin"
-    android:paddingRight="@dimen/activity_horizontal_margin"
-    android:paddingTop="@dimen/activity_vertical_margin"
     tools:context=".LoginActivity" >
 
     <ImageView
-        android:id="@+id/titleImage"
+        android:id="@+id/imageView1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
-        android:src="@drawable/red_ghost" />
+        android:src="@drawable/login_background" />
 
     <Button
         android:id="@+id/login_view_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/titleImage"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="32dp"
-        android:text="@string/login_button_text"
-        android:onClick="onLoginViewClick" />
+        android:layout_centerVertical="true"
+        android:onClick="onLoginViewClick"
+        android:text="@string/login_button_text" />
 
     <Button
         android:id="@+id/register_view_button"
@@ -32,8 +25,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/login_view_button"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="14dp"
-        android:text="@string/register_button_text"
-        android:onClick="onRegisterViewClick" />
+        android:onClick="onRegisterViewClick"
+        android:text="@string/register_button_text" />
 
 </RelativeLayout>

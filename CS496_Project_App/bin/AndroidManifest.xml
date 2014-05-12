@@ -13,9 +13,11 @@
     <uses-sdk
         android:minSdkVersion="9"
         android:targetSdkVersion="10" />
-    
+
     <!-- the device is required to have OpegGL ES in order to run this application -->
-    <uses-feature android:glEsVersion="0x00020000" android:required="true"/>
+    <uses-feature
+        android:glEsVersion="0x00020000"
+        android:required="true" />
 
     <application
         android:allowBackup="true"
@@ -43,10 +45,14 @@
             android:name="ycp.edu.cs496project.mobileApp.LoginActivity"
             android:label="@string/title_activity_login" >
         </activity>
-      	<activity
-      	    android:name="ycp.edu.cs496project.mobileApp.MarbleMadness"
-      	    android:label="@string/game_title" >
-      	</activity>
+        <activity
+            android:name="ycp.edu.cs496project.mobileApp.MarbleMadness"
+            android:label="@string/game_title" >
+        </activity>
+        <activity
+            android:name="ycp.edu.cs496project.mobileApp.MarbleMadness"
+            android:label="@string/title_activity_marblemadness" >
+        </activity>
     </application>
 
 </manifest>

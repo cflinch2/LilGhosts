@@ -78,12 +78,12 @@ import ycp.edu.cs496project.mobileApp.model.User;
 		//if an OK 200 response is not received then return null
 		return false;
 	}
-*/
+
 	/**
 	 * AsyncTask method to get access server using a non-UI thread
 	 */
 	
-	/*
+/*	
 	@Override
 	protected boolean doInBackground(int[]... params) {
 		

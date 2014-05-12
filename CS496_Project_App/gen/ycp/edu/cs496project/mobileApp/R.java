@@ -24,28 +24,29 @@ public final class R {
         public static final int death_ghost2=0x7f020000;
         public static final int gameover_courage=0x7f020001;
         public static final int gameover_death=0x7f020002;
-        public static final int gameovertest=0x7f020003;
-        public static final int green_ghost=0x7f020004;
+        public static final int green_ghost=0x7f020003;
+        public static final int hud=0x7f020004;
         public static final int ic_launcher=0x7f020005;
-        public static final int logo=0x7f020006;
-        public static final int plus_five=0x7f020007;
-        public static final int rare_green=0x7f020008;
-        public static final int rare_red2=0x7f020009;
-        public static final int rare_yellow=0x7f02000a;
-        public static final int red_ghost=0x7f02000b;
-        public static final int title_background=0x7f02000c;
-        public static final int yellow_ghost=0x7f02000d;
+        public static final int login_background=0x7f020006;
+        public static final int logo=0x7f020007;
+        public static final int plus_five=0x7f020008;
+        public static final int rare_green=0x7f020009;
+        public static final int rare_red2=0x7f02000a;
+        public static final int rare_yellow=0x7f02000b;
+        public static final int red_ghost=0x7f02000c;
+        public static final int title_background=0x7f02000d;
+        public static final int yellow_ghost=0x7f02000e;
     }
     public static final class id {
         public static final int action_settings=0x7f080008;
         public static final int gridView1=0x7f080000;
         public static final int highscore_button=0x7f080005;
+        public static final int imageView1=0x7f080001;
         public static final int loginActivity_button=0x7f080004;
         public static final int login_view_button=0x7f080002;
         public static final int play_button=0x7f080006;
         public static final int realtabcontent=0x7f080007;
         public static final int register_view_button=0x7f080003;
-        public static final int titleImage=0x7f080001;
     }
     public static final class layout {
         public static final int activity_game_screen=0x7f030000;
@@ -59,13 +60,15 @@ public final class R {
         public static final int game_screen=0x7f070000;
         public static final int login=0x7f070001;
         public static final int main=0x7f070002;
-        public static final int player_info=0x7f070003;
+        public static final int marblemadness=0x7f070003;
+        public static final int player_info=0x7f070004;
     }
     public static final class string {
         public static final int action_settings=0x7f050001;
         public static final int app_name=0x7f050000;
         public static final int dbTestButton_text=0x7f050005;
         public static final int game_title=0x7f05000c;
+        public static final int hello_world=0x7f05000e;
         public static final int highscore_button_text=0x7f050003;
         public static final int login_button_text=0x7f05000a;
         public static final int password_label_text=0x7f050009;
@@ -73,6 +76,7 @@ public final class R {
         public static final int register_button_text=0x7f05000b;
         public static final int title_activity_game_screen=0x7f050004;
         public static final int title_activity_login=0x7f050007;
+        public static final int title_activity_marblemadness=0x7f05000d;
         public static final int title_activity_player_info=0x7f050006;
         public static final int username_label_text=0x7f050008;
     }

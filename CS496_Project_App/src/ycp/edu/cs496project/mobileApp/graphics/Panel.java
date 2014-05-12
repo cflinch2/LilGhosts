@@ -6,6 +6,7 @@ import java.util.Random;
 import ycp.edu.cs496project.mobileApp.GhostEnums;
 import ycp.edu.cs496project.mobileApp.R;
 import ycp.edu.cs496project.mobileApp.R.drawable;
+import ycp.edu.cs496project.mobileApp.model.User;
 
 import android.content.Context;
 import android.graphics.Canvas;
@@ -43,6 +44,8 @@ public class Panel extends SurfaceView implements Callback
 	private double yellowBonus;
 	private double greenBonus;
 	
+	private User pUser; // the user to store the new highscore
+	
 	/* TODO 1: Add fields for: Sprite (for the ball object), 
 	 * a field for a thread object, 
 	 * a field for a Paint object
@@ -62,6 +65,8 @@ public class Panel extends SurfaceView implements Callback
 	{
 		super(context);
 		
+	
+		
 		generater = new Random(System.currentTimeMillis());
 
 		// TODO 2: Initialize class fields
@@ -69,9 +74,9 @@ public class Panel extends SurfaceView implements Callback
 			numGhosts = 0;
 			tooManyGhosts = 30;
 			countdownTime = 5.0;
-			redChain = 0;
-			yellowChain = 0;
-			greenChain = 0;
+			redChain = 10;
+			yellowChain = 10;
+			greenChain = 10;
 			
 			//Initialize time plus counters
 			redPlus = 0;
@@ -314,10 +319,10 @@ public class Panel extends SurfaceView implements Callback
 		        sprite.doDraw(canvas);
 		    }
 			
-			if (getGameOverIMG() == true)
+			if (getGameOverIMG() == true && gameOver == false)
 			{
 				//canvas.drawText("Game Over", 10, 30, mPaint);
-				Sprite gameOverImg = new Sprite(getResources(), R.drawable.gameovertest, mWidth/2, mHeight/2, 0, 0);
+				Sprite gameOverImg = new Sprite(getResources(), R.drawable.gameover_courage, mWidth/4, mHeight/4, 0, 0);
 				mSpriteList.add(gameOverImg);
 				gameOver = true;
 			}
