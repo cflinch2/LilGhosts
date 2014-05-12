@@ -77,9 +77,9 @@ public class Panel extends SurfaceView implements Callback
 			numGhosts = 0;
 			tooManyGhosts = 30;
 			countdownTime = 5.0;
-			redChain = 10;
-			yellowChain = 10;
-			greenChain = 10;
+			redChain = 0;
+			yellowChain = 0;
+			greenChain = 0;
 			
 			//Initialize time plus counters
 			redPlus = 0;
@@ -99,7 +99,7 @@ public class Panel extends SurfaceView implements Callback
 			mPaint = new Paint();
 
 			//Set the color for the paint object to white (using the method setColor(Color.WHITE) of the paint object)
-			mPaint.setColor(Color.WHITE);
+			mPaint.setColor(Color.BLACK);
 			
 			//Set the game flag to false.
 			gameOver = false;
@@ -330,13 +330,13 @@ public class Panel extends SurfaceView implements Callback
 			if (getGameOverIMG() == true && gameOver == false)
 			{
 				//canvas.drawText("Game Over", 10, 30, mPaint);
-				Sprite gameOverImg = new Sprite(getResources(), R.drawable.gameover_courage, mWidth/4, mHeight/4, 0, 0);
+				Sprite gameOverImg = new Sprite(getResources(), R.drawable.gameover_courage, 70, 300, 0, 0);
 				mSpriteList.add(gameOverImg);
 				gameOver = true;
 			}
 			
-			canvas.drawText("Bravery: "+ getCountdownString(getCountdownTime()), 10, 10, mPaint);
-			canvas.drawText("Score:" + getScoreString(getScore()), 100, 10, mPaint);
+			canvas.drawText("Courage: "+ getCountdownString(getCountdownTime()), 200, 10, mPaint);
+			canvas.drawText("Score:" + getScoreString(getScore()), 50, 10, mPaint);
 			
 			if (getRedChain() > 0)
 			{
