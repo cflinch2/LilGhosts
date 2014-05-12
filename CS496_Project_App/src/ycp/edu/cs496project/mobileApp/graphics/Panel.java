@@ -9,6 +9,8 @@ import ycp.edu.cs496project.mobileApp.R.drawable;
 import ycp.edu.cs496project.mobileApp.model.User;
 
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
@@ -43,6 +45,7 @@ public class Panel extends SurfaceView implements Callback
 	private double redBonus;
 	private double yellowBonus;
 	private double greenBonus;
+	private Bitmap mBitmap;
 	
 	private User pUser; // the user to store the new highscore
 	
@@ -102,6 +105,8 @@ public class Panel extends SurfaceView implements Callback
 			gameOver = false;
 			gameOverIMG = false;
 			
+			//Initialize background(s)
+			mBitmap = BitmapFactory.decodeResource(getResources(), R.drawable.hud);
 			
 
 			//ADD CODE IN THE CONSTRUCTOR 2 PART E			
@@ -309,6 +314,9 @@ public class Panel extends SurfaceView implements Callback
 	public void doDraw(Canvas canvas, long elapsed) 
 	{
 		canvas.drawColor(Color.BLACK);
+		canvas.drawBitmap(mBitmap, 0, 0, mPaint);
+		canvas.drawBitmap(mBitmap, 0, 0, mPaint);
+		
 		//Draw ball (thread safe)
 		synchronized (mSpriteList) 
 		{
