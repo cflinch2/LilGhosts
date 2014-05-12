@@ -38,3 +38,12 @@ public class Main {
 		System.out.println("Server has shut down, exiting");
 	}
 }
+
+
+/*
+ * mobile controller posts request to update (probably need some json to SEND the username and high score to the server)
+ * servlet: post servlet will need logic to handle this action, will parse body of request and instantiate a server controller
+ * server controller will then initiate the database transaction
+ * database method will perform the operation
+ */ 
+ 

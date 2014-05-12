@@ -91,7 +91,7 @@ public class DatabaseApp extends HttpServlet{
 				return;
 			}
 			
-			System.out.println("Post, action=" + action);
+			//System.out.println("Post, action=" + action);
 			
 			if(action.equals("getUserList")){
 				//retrieve inventory from database

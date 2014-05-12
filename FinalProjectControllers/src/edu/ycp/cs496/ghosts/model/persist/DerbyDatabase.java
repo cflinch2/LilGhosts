@@ -245,12 +245,14 @@ public class DerbyDatabase implements IDatabase {
 						"create table " + DB_TABLENAME + " (" + 
 						" id integer primary key not null generated always as identity," +
 						" userName varchar(80) unique," +
-						" password varchar(80)" +
-					/*	" integer high score" +
+						" password varchar(80)," +
+						" score integer not null default 0" +
+						/*
 						" integer max red chain" +
 						" integer max yellow chain" +
-						" integer max green chain" + 
-					*/
+						" integer max green chain" +
+						*/ 
+					
 						")"
 					);
 					
@@ -275,6 +277,7 @@ public class DerbyDatabase implements IDatabase {
 		stmt.setString(index++, user.getUserName());
 		stmt.setString(index++, user.getUserPassword());
 	}
+	
 	public void loadInitialData() {
 		executeTransaction(new Transaction<Boolean>() {
 
@@ -298,6 +301,7 @@ public class DerbyDatabase implements IDatabase {
 			
 		});
 	}
+	
 	protected void loadUser(User user, ResultSet resultSet, int index) throws SQLException {
 //		user.setId(resultSet.getInt(index++));
 		user.setUserName(resultSet.getString(index++));
