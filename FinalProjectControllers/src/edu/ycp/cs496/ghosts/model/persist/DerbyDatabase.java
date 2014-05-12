@@ -34,7 +34,6 @@ public class DerbyDatabase implements IDatabase {
 
 			@Override
 			public User execute(Connection conn) throws SQLException {
-				// TODO Auto-generated method stub
 				PreparedStatement stmt = null;
 				ResultSet resultSet = null;
 				try {
@@ -87,7 +86,25 @@ public class DerbyDatabase implements IDatabase {
 		});
 
 	}
+	
+	//used to update the user's score in the database
+	@Override
+	public void updateUserScore(final User user){
+		executeTransaction(new Transaction<Boolean>() {
 
+			@Override
+			public Boolean execute(Connection conn) throws SQLException {
+				PreparedStatement stmt = conn.prepareStatement("update " + DB_TABLENAME + " set score = ? where score = ?");
+				stmt.setString(1, user.getUserName());
+				stmt.setInt(3, user.getUserScore());
+				stmt.executeUpdate();
+				return true;
+			}
+
+		});
+	}
+	
+	//remove the user from the database
 	@Override
 	public void deleteUser(final String userName) {
 		executeTransaction(new Transaction<Boolean>() {
@@ -245,14 +262,12 @@ public class DerbyDatabase implements IDatabase {
 						"create table " + DB_TABLENAME + " (" + 
 						" id integer primary key not null generated always as identity," +
 						" userName varchar(80) unique," +
-						" password varchar(80)," +
-						" score integer not null default 0" +
-						/*
+						" password varchar(80)" +
+					/*	" integer high score" +
 						" integer max red chain" +
 						" integer max yellow chain" +
-						" integer max green chain" +
-						*/ 
-					
+						" integer max green chain" + 
+					*/
 						")"
 					);
 					
@@ -277,7 +292,6 @@ public class DerbyDatabase implements IDatabase {
 		stmt.setString(index++, user.getUserName());
 		stmt.setString(index++, user.getUserPassword());
 	}
-	
 	public void loadInitialData() {
 		executeTransaction(new Transaction<Boolean>() {
 
@@ -301,7 +315,6 @@ public class DerbyDatabase implements IDatabase {
 			
 		});
 	}
-	
 	protected void loadUser(User user, ResultSet resultSet, int index) throws SQLException {
 //		user.setId(resultSet.getInt(index++));
 		user.setUserName(resultSet.getString(index++));

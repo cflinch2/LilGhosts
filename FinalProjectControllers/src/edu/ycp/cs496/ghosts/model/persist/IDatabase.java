@@ -7,6 +7,9 @@ import java.util.List;
 
 
 
+
+
+
 /**
  * @author sbonner1
  * Class to hold the methods for the IDatabase that the FakeDatabase, and later real database,
@@ -46,5 +49,8 @@ public interface IDatabase {
 	 * @return the User, or null if there is no such user
 	 */
 	public User findUser(String userName);
+
+
+	void updateUserScore(User user);
 	
 }

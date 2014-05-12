@@ -1,0 +1,13 @@
+----------------------------------------------------------------
+Mon May 12 15:27:28 EDT 2014:
+Booting Derby version The Apache Software Foundation - Apache Derby - 10.10.2.0 - (1582446): instance a816c00e-0145-f1e7-2d60-000002a8e370 
+on database directory C:\cs496\ghosts.db with class loader sun.misc.Launcher$AppClassLoader@6f1a7e7f 
+Loaded from file:/H:/CS496_WebAppMobile/CS496_Derby/CS496_Derby/lib/derby.jar
+java.vendor=Oracle Corporation
+java.runtime.version=1.7.0_07-b11
+user.dir=H:\git\LilGhosts\FinalProjectControllers
+os.name=Windows 7
+os.arch=amd64
+os.version=6.1
+derby.system.home=null
+Database Class Loader started - derby.database.classpath=''

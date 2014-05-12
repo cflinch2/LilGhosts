@@ -112,6 +112,12 @@ public class FakeDatabase implements IDatabase {
 		}
 	}
 
+	@Override
+	public void updateUserScore(User user) {
+		// TODO Auto-generated method stub
+		
+	}
+
 	
 	
 	
