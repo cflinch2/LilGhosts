@@ -175,7 +175,7 @@ public class Panel extends SurfaceView implements Callback
 		         if (checkGameEnd() == true)
 		         {
 		        	 gameOverIMG = true;
-		        	 
+		        	 /*
 		        	 if(score > pUser.getUserScore()){
 		        		 pUser.setUserScore(score);
 		        		 try{
@@ -189,8 +189,9 @@ public class Panel extends SurfaceView implements Callback
 		        		 }catch(Exception e){
 		        			 e.printStackTrace();
 		        		 }
+		        		
 		        	 }
-		        	 
+		        	 */
 		         }
 		      }
 		   }
