@@ -47,6 +47,7 @@ public class Panel extends SurfaceView implements Callback
 	private double yellowBonus;
 	private double greenBonus;
 	private Bitmap mBitmap;
+	private Bitmap mLevel01;
 	
 	private User pUser; // the user to store the new highscore
 	
@@ -108,6 +109,8 @@ public class Panel extends SurfaceView implements Callback
 			
 			//Initialize background(s)
 			mBitmap = BitmapFactory.decodeResource(getResources(), R.drawable.hud);
+		
+			mLevel01 = BitmapFactory.decodeResource(getResources(), R.drawable.gameplaybackground);
 			
 
 			//ADD CODE IN THE CONSTRUCTOR 2 PART E			
@@ -331,7 +334,7 @@ public class Panel extends SurfaceView implements Callback
 	public void doDraw(Canvas canvas, long elapsed) 
 	{
 		canvas.drawColor(Color.BLACK);
-		canvas.drawBitmap(mBitmap, 0, 0, mPaint);
+		canvas.drawBitmap(mLevel01, 0, 0, mPaint);
 		canvas.drawBitmap(mBitmap, 0, 0, mPaint);
 		
 		//Draw ball (thread safe)
@@ -352,22 +355,35 @@ public class Panel extends SurfaceView implements Callback
 				gameOver = true;
 			}
 			
-			canvas.drawText("Bravery: "+ getCountdownString(getCountdownTime()), 330, 100, mPaint);
-			canvas.drawText("Score:" + getScoreString(getScore()), 85, 100, mPaint);
+			//Score
+			mPaint.setTextSize(48f);
+			canvas.drawText(getScoreString(getScore()), 105, 130, mPaint);
 			
+			//Timer / Courage
+			mPaint.setTextSize(72f);
+			canvas.drawText(getCountdownString(getCountdownTime()), 305, 170, mPaint);
+			
+			
+			
+			//Chains
+			mPaint.setTextSize(20f);
 			if (getRedChain() > 0)
 			{
-				canvas.drawText("RED Chain:" + getScoreString(getRedChain()), 100, 40, mPaint);
+				mPaint.setColor(Color.RED);
+				canvas.drawText("RED Chain:" + getScoreString(getRedChain()), 20, 15, mPaint);
 			}
 			
 			if (getYellowChain() > 0)
 			{
-				canvas.drawText("YELLOW Chain:" + getScoreString(getYellowChain()), 100, 40, mPaint);
+				//mPaint.setColor(Color.argb(100, 224, 232, 79));
+				mPaint.setColor(Color.YELLOW);
+				canvas.drawText("YELLOW Chain:" + getScoreString(getYellowChain()), 20, 15, mPaint);
 			}
 			
 			if (getGreenChain() > 0)
 			{
-				canvas.drawText("GREEN Chain:" + getScoreString(getGreenChain()), 100, 40, mPaint);
+				mPaint.setColor(Color.GREEN);
+				canvas.drawText("GREEN Chain:" + getScoreString(getGreenChain()), 20, 15, mPaint);
 			}
 		}
 	}
