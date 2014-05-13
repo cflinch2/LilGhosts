@@ -27,18 +27,20 @@ public class DerbyDatabase implements IDatabase {
 	private static final String DB_DIRECTORY = "C:/cs496/ghosts.db";
 	private static final String DB_TABLENAME = "userList";
 	
+	//return the user that the client is searching for
 	@Override
-	public User getUser(final String userName, final String password) {
-		// TODO Auto-generated method stub
+	public User getUser(final String userName, final String password) { 
 		return executeTransaction(new Transaction<User>(){
 
 			@Override
 			public User execute(Connection conn) throws SQLException {
 				PreparedStatement stmt = null;
 				ResultSet resultSet = null;
+		
 				try {
 					stmt = conn.prepareStatement("select * from " + DB_TABLENAME +" where userName = ?");
 					stmt.setString(1, userName);
+					//stmt.setString(2, password);
 					
 					resultSet = stmt.executeQuery();
 					
@@ -59,7 +61,7 @@ public class DerbyDatabase implements IDatabase {
 			
 		});
 	}
-
+	//if a user wants to change their username, use this method
 	@Override
 	public void replaceUser(final String oldUserName, final User newUser) {
 		executeTransaction(new Transaction<Boolean>() {
@@ -73,7 +75,46 @@ public class DerbyDatabase implements IDatabase {
 			}
 		});
 	}
+	
+	@Override
+	public User loginUser(final String userName, final String password) {
+		return executeTransaction(new Transaction<User>(){
 
+			@Override
+			public User execute(Connection conn) throws SQLException {
+
+				PreparedStatement stmt = null;
+				ResultSet resultSet = null;
+		
+				try {
+					stmt = conn.prepareStatement("select * from " + DB_TABLENAME +" where userName = ?");
+					stmt.setString(1, userName);
+					//stmt.setString(2, password);
+					
+					resultSet = stmt.executeQuery();
+					
+					if(!resultSet.next()){
+						//no such user
+						return null;
+					}
+					
+					User user = new User(userName, password);
+					//user.setUserName(userName);
+					//user.setUserPassword(password);
+					loadUser(user, resultSet, 1);
+					return user;
+				}finally{
+					DBUtil.closeQuietly(resultSet);
+					DBUtil.closeQuietly(stmt);
+				}
+				
+			}
+		});
+
+		
+	}
+	
+	//clear the database of all existing users
 	@Override
 	public void deleteUserList() {
 		executeTransaction(new Transaction<Boolean>() {
@@ -89,19 +130,20 @@ public class DerbyDatabase implements IDatabase {
 	
 	//used to update the user's score in the database
 	@Override
-	public void updateUserScore(final User user){
+	public User updateUserScore(final User user, final int score){
 		executeTransaction(new Transaction<Boolean>() {
 
 			@Override
 			public Boolean execute(Connection conn) throws SQLException {
 				PreparedStatement stmt = conn.prepareStatement("update " + DB_TABLENAME + " set score = ? where score = ?");
 				stmt.setString(1, user.getUserName());
-				stmt.setInt(3, user.getUserScore());
+				stmt.setInt(3, score);
 				stmt.executeUpdate();
 				return true;
 			}
 
 		});
+		return user;
 	}
 	
 	//remove the user from the database
@@ -117,7 +159,7 @@ public class DerbyDatabase implements IDatabase {
 			}
 		});
 	}
-
+	//used for high scores/printing the entire list of users
 	@Override
 	public List<User> getUserList() {
 		return executeTransaction(new Transaction<List<User>>() {
@@ -251,6 +293,8 @@ public class DerbyDatabase implements IDatabase {
 		
 		return conn;
 	}
+	//this is the main part of the database. the tables store all the data
+	//that the client side needs
 	public void createTables() {
 		executeTransaction(new Transaction<Boolean>() {
 			@Override
@@ -262,12 +306,15 @@ public class DerbyDatabase implements IDatabase {
 						"create table " + DB_TABLENAME + " (" + 
 						" id integer primary key not null generated always as identity," +
 						" userName varchar(80) unique," +
-						" password varchar(80)" +
+						" password varchar(80)," +
+						" score integer" +
+						
 					/*	" integer high score" +
 						" integer max red chain" +
 						" integer max yellow chain" +
 						" integer max green chain" + 
 					*/
+
 						")"
 					);
 					
@@ -291,6 +338,7 @@ public class DerbyDatabase implements IDatabase {
 		// a table in which a unique id is automatically generated.
 		stmt.setString(index++, user.getUserName());
 		stmt.setString(index++, user.getUserPassword());
+		stmt.setInt(index++, user.getUserScore());
 	}
 	public void loadInitialData() {
 		executeTransaction(new Transaction<Boolean>() {
@@ -301,7 +349,7 @@ public class DerbyDatabase implements IDatabase {
 				
 				try{
 					stmt = conn.prepareStatement("insert into " + DB_TABLENAME + " (userName, password) values (?,?)");
-					storeUserNoId(new User("testUser", "test"), stmt, 1);
+					storeUserNoId(new User("testUser", "password"), stmt, 1);
 					stmt.addBatch();
 					
 					stmt.executeBatch();
@@ -316,7 +364,7 @@ public class DerbyDatabase implements IDatabase {
 		});
 	}
 	protected void loadUser(User user, ResultSet resultSet, int index) throws SQLException {
-//		user.setId(resultSet.getInt(index++));
+		user.setId(resultSet.getInt(index++));
 		user.setUserName(resultSet.getString(index++));
 		user.setUserPassword(resultSet.getString(index++));
 	}
@@ -328,4 +376,5 @@ public class DerbyDatabase implements IDatabase {
 		db.loadInitialData();
 		System.out.println("Done!");
 	}
+
 }

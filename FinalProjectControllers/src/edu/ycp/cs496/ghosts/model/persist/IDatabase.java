@@ -10,6 +10,9 @@ import java.util.List;
 
 
 
+
+
+
 /**
  * @author sbonner1
  * Class to hold the methods for the IDatabase that the FakeDatabase, and later real database,
@@ -20,7 +23,7 @@ import edu.ycp.cs496.ghosts.model.User;
 
 public interface IDatabase {
 	
-	public User getUser(String userName, String password);
+	//public User getUser(String userName, String password);
 
 	void replaceUser(String oldUserName, User newUser);
 
@@ -50,7 +53,10 @@ public interface IDatabase {
 	 */
 	public User findUser(String userName);
 
+	public User updateUserScore(User user, int score);
 
-	void updateUserScore(User user);
+	public User loginUser(String userName, String password);
+
+	User getUser(String userName, String password);
 	
 }

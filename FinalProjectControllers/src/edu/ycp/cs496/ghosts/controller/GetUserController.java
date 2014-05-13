@@ -11,6 +11,6 @@ import edu.ycp.cs496.ghosts.model.persist.IDatabase;
 public class GetUserController {
 	public User getUser(String userName, String password){
 		IDatabase db = DatabaseProvider.getInstance();
-		return db.getUser(userName,password);
+		return db.getUser(userName, password);
 	}
 }

@@ -4,7 +4,13 @@ import edu.ycp.cs496.ghosts.model.User;
 import edu.ycp.cs496.ghosts.model.persist.DatabaseProvider;
 import edu.ycp.cs496.ghosts.model.persist.IDatabase;
 
-
+/**
+ * 
+ * @author shane
+ * controller to assist with adding a new user when they register to play the game
+ * Makes use of the application BCrypt to encrypt passwords
+ *
+ */
 
 public class AddUser {
 	public boolean addNewUser(User user, String password) {

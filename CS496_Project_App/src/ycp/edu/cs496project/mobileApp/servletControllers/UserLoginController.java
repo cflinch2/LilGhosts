@@ -13,8 +13,10 @@ import org.apache.http.client.methods.HttpPost;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.json.JSONException;
+
 import android.os.AsyncTask;
 import android.util.Log;
+import ycp.edu.cs496project.mobileApp.MainActivity;
 import ycp.edu.cs496project.mobileApp.json.JSON;
 import ycp.edu.cs496project.mobileApp.model.User;
 
@@ -43,7 +45,7 @@ public class UserLoginController extends AsyncTask<String, Void, User>{
 	private User loginUser(String userName, String password) throws ClientProtocolException, IOException, URISyntaxException, JSONException{
 		
 		//create URI
-		String uri = "http://" + ycp.edu.cs496project.mobileApp.MainActivity.URI_IP_ADDRESS + "/DatabaseApp/" + userName + "?action=getUser";
+		String uri = "http://" + MainActivity.URI_IP_ADDRESS + "/DatabaseApp/" + userName + "?action=getUser";
 		
 		//create a StringWriter that places 
 		StringWriter sw = new StringWriter();
@@ -65,6 +67,7 @@ public class UserLoginController extends AsyncTask<String, Void, User>{
 		
 		Log.i(tag, resp.getStatusLine().toString());
 		
+		//if the the response has a 200 OK status, then return the user information attached to response
 		if(resp.getStatusLine().getStatusCode() == HttpStatus.SC_OK){
 			HttpEntity entity = resp.getEntity();
 			Log.i(tag, "retrieved a user from server");

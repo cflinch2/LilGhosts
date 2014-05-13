@@ -33,7 +33,7 @@ import ycp.edu.cs496project.mobileApp.model.User;
  * database method will perform the operation
  */ 
 
-public class UpdateHighScoreController extends AsyncTask<User, Void, Boolean>{
+public class UpdateHighScoreController extends AsyncTask<User, Void, User>{
 	
 	/**
 	 * takes a user object with the user's username, password and new highscore. This user is then sent to the server where it 
@@ -44,7 +44,7 @@ public class UpdateHighScoreController extends AsyncTask<User, Void, Boolean>{
 	 * @throws ClientProtocolException
 	 * @throws IOException
 	 */
-	private boolean updateHighscore(User updateUser) throws URISyntaxException, ClientProtocolException, IOException{
+	private User updateHighscore(User updateUser) throws URISyntaxException, ClientProtocolException, IOException{
 		
 		//Send data to server
 		String uri = "http://" + MainActivity.URI_IP_ADDRESS + "/DatabaseApp/?action=updateUserScore";
@@ -71,11 +71,12 @@ public class UpdateHighScoreController extends AsyncTask<User, Void, Boolean>{
 		//if a OK 200 response is received, return the array of integers sent via JSON
 		if(resp.getStatusLine().getStatusCode() == HttpStatus.SC_OK){
 			HttpEntity entity = resp.getEntity();
-			return JSON.getObjectMapper().readValue(entity.getContent(), boolean.class);
+			Log.i("update score controller", JSON.getObjectMapper().readValue(entity.getContent(), User.class).toString());
+			return JSON.getObjectMapper().readValue(entity.getContent(), User.class);
 		}
 		
 		//if an OK 200 response is not received then return null
-		return false;
+		return null;
 	}
 	
 	/**
@@ -83,14 +84,14 @@ public class UpdateHighScoreController extends AsyncTask<User, Void, Boolean>{
 	 */
 	
 	@Override
-	protected Boolean doInBackground(User... user) {
+	protected User doInBackground(User... user) {
 		
 		try{
 			return updateHighscore(user[0]);
 		}catch(Exception e){
 			e.printStackTrace();
 		}
-		return false;
+		return null;
 	}
 	
 }

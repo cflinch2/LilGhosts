@@ -23,16 +23,16 @@ public class FakeDatabase implements IDatabase {
 		userList = new ArrayList<User>();
 		
 		//Preliminary add to the user list 
-		userList.add(new User("Shane", "sbonner"));
-		userList.add(new User("Josh", "jcoady"));
-		userList.add(new User("Chris", "cflinch"));
+		//userList.add(new User("Shane", "sbonner"));
+		//userList.add(new User("Josh", "jcoady"));
+		//userList.add(new User("Chris", "cflinch"));
 		userList.get(0).setUserScore(200);
 		userList.get(1).setUserScore(150);
 		userList.get(2).setUserScore(125);
 		
 	}
 	
-	@Override
+	/*@Override
 	public User getUser(String userName, String Password) {
 		for(User user: userList){
 			System.out.println("Check: " + userName + "/" + user.getUserName());
@@ -42,7 +42,7 @@ public class FakeDatabase implements IDatabase {
 		}
 		return null;	
 	}
-	
+	*/
 	@Override
 	public boolean addNewUser(User user, String hashedPassword) {
 		// TODO Auto-generated method stub
@@ -112,10 +112,24 @@ public class FakeDatabase implements IDatabase {
 		}
 	}
 
+
 	@Override
-	public void updateUserScore(User user) {
+	public User loginUser(String userName, String password) {
 		// TODO Auto-generated method stub
-		
+		return null;
+	}
+
+
+	@Override
+	public User getUser(String userName, String password) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public User updateUserScore(User user, int score) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 	

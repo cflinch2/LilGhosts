@@ -181,7 +181,7 @@ public class Panel extends SurfaceView implements Callback
 		        		 try{
 		        			 UpdateHighScoreController controller = new UpdateHighScoreController();
 		        			 controller.execute(pUser);
-		        			 if(controller.get() == true){
+		        			 if(controller.get() == null){
 		        				 Log.i("user info", "success updating score");
 		        			 }else{
 		        				 Log.i("user info", "bad");

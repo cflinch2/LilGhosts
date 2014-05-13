@@ -24,7 +24,7 @@ import ycp.edu.cs496project.mobileApp.json.JSON;
 public class HighscoreController extends AsyncTask<int[], Void, int[]>{
 	
 	/**
-	 * retrieves the list of highscores from the server
+	 * retrieves an int array of highscores from the server
 	 * 
 	 * @return an integer array of highscores
 	 * @throws URISyntaxException

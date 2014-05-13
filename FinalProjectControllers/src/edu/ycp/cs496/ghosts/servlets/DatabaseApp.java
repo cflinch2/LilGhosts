@@ -25,6 +25,7 @@ import edu.ycp.cs496.ghosts.controller.GetUserController;
 import edu.ycp.cs496.ghosts.controller.GetUserList;
 import edu.ycp.cs496.ghosts.controller.ReplaceUser;
 import edu.ycp.cs496.ghosts.controller.ReplaceUserList;
+import edu.ycp.cs496.ghosts.controller.UpdateUserScore;
 import edu.ycp.cs496.ghosts.model.User;
 //import org.eclipse.jetty.util.ajax.JSON;
 import edu.ycp.cs496.ghosts.model.json.JSON;
@@ -91,8 +92,24 @@ public class DatabaseApp extends HttpServlet{
 				return;
 			}
 			
-			//System.out.println("Post, action=" + action);
+			if(action.equals("loginUser")){
+				
+			}
 			
+			if(action.equals("updateUserScore")){
+				User newUser = JSON.getObjectMapper().readValue(req.getReader(), User.class);
+				int score = newUser.getUserScore();
+			
+				UpdateUserScore controller = new UpdateUserScore();
+				controller.updateUserScore(newUser, score);
+				//boolean success = addController.addNewUser(newUser, password);
+				
+				
+				resp.setStatus(HttpServletResponse.SC_OK);
+				resp.setContentType("application/json");
+				JSON.getObjectMapper().writeValue(resp.getWriter(), newUser);
+				
+			}
 			if(action.equals("getUserList")){
 				//retrieve inventory from database
 				GetUserList getController = new GetUserList();
@@ -132,7 +149,6 @@ public class DatabaseApp extends HttpServlet{
 					pathInfo = pathInfo.substring(1);
 				}
 				
-				
 				String password = JSON.getObjectMapper().readValue(req.getReader(), String.class);
 				GetUserController getController = new GetUserController();
 				User user = getController.getUser(pathInfo, password);
@@ -157,10 +173,8 @@ public class DatabaseApp extends HttpServlet{
 				
 				String password = JSON.getObjectMapper().readValue(req.getReader(), String.class);
 				
-				System.out.println("Attempt to log in " + pathInfo + "/" + password);
-
 				GetUserController controller = new GetUserController(); 
-				User user = controller.getUser(pathInfo, password);		
+				User user = controller.getUser(pathInfo,password);		
 				System.out.println("accessed database");
 				if (user == null) {
 					// No such item, so return a NOT FOUND response
@@ -171,7 +185,6 @@ public class DatabaseApp extends HttpServlet{
 				}
 				System.out.println(user.getUserName());
 				
-				System.out.println("Sending back User object");
 				resp.setStatus(HttpServletResponse.SC_OK);
 				resp.setContentType("application/json");
 				JSON.getObjectMapper().writeValue(resp.getWriter(), user);

@@ -10,15 +10,23 @@ import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.impl.client.DefaultHttpClient;
 
+import ycp.edu.cs496project.mobileApp.MainActivity;
 import ycp.edu.cs496project.mobileApp.json.JSON;
 import android.os.AsyncTask;
 import android.util.Log;
 
+/**
+ * A controller to retrieve the list of all usernames stored on the database
+ * 
+ * @author josh coady
+ *
+ */
 public class UserNameListController extends AsyncTask<String[], Void, String[]>{
 	
 	/**
+	 * method that connects to the server, to retrieve the list of all usernames
 	 * 
-	 * @return
+	 * @return string list of usernames
 	 * @throws ClientProtocolException
 	 * @throws IOException
 	 */
@@ -26,7 +34,7 @@ public class UserNameListController extends AsyncTask<String[], Void, String[]>{
 		
 		String tag = "UserNameList";
 		
-		String uri = "http://" +  ycp.edu.cs496project.mobileApp.MainActivity.URI_IP_ADDRESS + "/DatabaseApp/?action=getUserList";
+		String uri = "http://" +  MainActivity.URI_IP_ADDRESS + "/DatabaseApp/?action=getUserList";
 		
 		//send an http POST request 
 		HttpClient client = new DefaultHttpClient();
@@ -51,7 +59,7 @@ public class UserNameListController extends AsyncTask<String[], Void, String[]>{
 	}
 
 	/**
-	 * AsyncTask method to retrieve list of usernames on a non-UI thread
+	 * AsyncTask method to retrieve list of usernames using a non-UI thread
 	 */
 	@Override
 	protected String[] doInBackground(String[]... params) {

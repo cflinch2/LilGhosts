@@ -8,7 +8,6 @@ import ycp.edu.cs496project.mobileApp.servletControllers.UserRegisterController;
 import android.os.Bundle;
 import android.app.Activity;
 import android.content.Intent;
-import android.graphics.Color;
 import android.util.Log;
 import android.view.Menu;
 import android.view.View;
@@ -37,6 +36,8 @@ public class LoginActivity extends Activity {
 	private static final String invalid_submission_message = "Incorrect username or password";
 	//a message to display if a user registering selects a username that is already being used
 	private static final String username_exists_message = "Username already being used.";
+	//message to display if either the username or password textbox does not has a string
+	private static final String empty_str_message = "Please enter a username and password";
 	
 	private final int passwordInputType = 0x00000081; //inputType code for the EditTexts for passwords
 	private final int normalTextInputType = 0x00000001; //inputType code for EditTexts for usernames
@@ -49,12 +50,12 @@ public class LoginActivity extends Activity {
 	
 	private User user; //user object to hold user information
 	
+	private ArrayList<String> str_arr; //an arrayList to store user info when going to another activity
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_login);
-		
-		//getWindow().getDecorView().setBackgroundColor(Color.BLACK);
 		
 	}
 
@@ -195,20 +196,26 @@ public class LoginActivity extends Activity {
 					if(user == null){
 						Toast.makeText(LoginActivity.this, invalid_submission_message, Toast.LENGTH_SHORT).show();
 					}else{
-						Log.i(loginTag, user.getUserName());
-						Toast.makeText(LoginActivity.this, "Welcome back, " + username, Toast.LENGTH_SHORT).show();
-						Intent mainActivityIntent = new Intent(LoginActivity.this, MainActivity.class);
-						
-						Log.i(loginTag, user.getUserName());
-						Log.i(loginTag, user.getUserPassword());
-						
-						ArrayList<String> str_arr = new ArrayList<String>();
-						str_arr.add(username);
-						str_arr.add(user.getUserPassword());
-						str_arr.add(Integer.toString(user.getUserScore()));
-						
-						mainActivityIntent.putStringArrayListExtra(USER_INFO_MESSAGE, str_arr);
-						startActivity(mainActivityIntent);
+						//compare password, if passwords equal each other then go to main menu, otherwise print invalid input message
+						if(user.getUserPassword().equals(password)){
+							Log.i(loginTag, user.getUserName());
+							Toast.makeText(LoginActivity.this, "Welcome back, " + username, Toast.LENGTH_SHORT).show();
+							Intent mainActivityIntent = new Intent(LoginActivity.this, MainActivity.class);
+							
+							Log.i(loginTag, user.getUserName());
+							Log.i(loginTag, user.getUserPassword());
+							
+							str_arr = new ArrayList<String>();
+							str_arr.add(username);
+							str_arr.add(user.getUserPassword());
+							str_arr.add(Integer.toString(user.getUserScore()));
+							
+							//add user info to the main activity via the intent that start MainActivity
+							mainActivityIntent.putStringArrayListExtra(USER_INFO_MESSAGE, str_arr);
+							startActivity(mainActivityIntent);
+						}else{
+							Toast.makeText(LoginActivity.this, invalid_submission_message, Toast.LENGTH_SHORT).show();
+						}
 					}
 				}catch(Exception e){
 					e.printStackTrace();
@@ -227,20 +234,38 @@ public class LoginActivity extends Activity {
 				String username = usernameText.getText().toString();
 				String password = passwordText.getText().toString();
 				
+				Log.i(loginTag, username);
+				Log.i(loginTag, password);
+				
+				boolean registered = false;
+				
 				try{
 					UserRegisterController registerController = new UserRegisterController();
 					
 					//use the controller to create a user object and trying to add it to the server-side database
 					//if the new user was created, then the controller will return true, if a user with the same username already
-					//exists then the controller will return false
-					registerController.execute(username, password);
-					boolean registered = registerController.get();
+					//exists then the controller will return false. Also if either the username or password textboxes are empty, 
+					//inform the user that they need both a username and password
+					if(username == "" || password == ""){
+						Toast.makeText(LoginActivity.this, empty_str_message, Toast.LENGTH_SHORT).show();
+					}else{
+						registerController.execute(username, password);
+						registered = registerController.get();
+					}
 					
 					//if a new user is created and registered, then inform the user and go to the main menu
 					//otherwise, the user needs to be informed that they need to use a different username
 					if(registered == true){
 						Toast.makeText(LoginActivity.this, "Welcome, " + username, Toast.LENGTH_SHORT).show();
 						Intent mainActivityIntent = new Intent(LoginActivity.this, MainActivity.class);
+						
+						str_arr = new ArrayList<String>();
+						str_arr.add(username);
+						str_arr.add(password);
+						str_arr.add(Integer.toString(0));
+						
+						//add user info to the main activity via the intent that start MainActivity
+						mainActivityIntent.putStringArrayListExtra(USER_INFO_MESSAGE, str_arr);
 						startActivity(mainActivityIntent);
 					}else{
 						Toast.makeText(LoginActivity.this, username_exists_message, Toast.LENGTH_SHORT).show();
